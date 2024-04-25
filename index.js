@@ -60,6 +60,7 @@ async function bubbleSort(arr){
                 arr[j] = arr[j+1]
                 arr[j+1] = temp
                 clearCanvas()
+                makeBlock(arr)
                 await wait(50)
             }
         }
