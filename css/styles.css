@@ -1,3 +1,37 @@
+#wrapper{
+    display: flex;
+    flex-direction: column;
+}
+#button-column{
+    display: flex;
+    padding: 1rem;
+    justify-content: center;
+}
+.button {
+  background-color: #04AA6D; /* Green */
+  border: 1px solid #000;
+  border-radius: 1rem;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+#canvas-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 1rem;
+    /*border: 1px solid #000;
+    background: blue;*/
+}
 #drawing{
     height: 400px;
+    background: white;
+    flex-direction: column;
+    width: 50%;
+    justify-content: center;
+    border: 1px solid #000;
+    border-radius: 5px;
 }
