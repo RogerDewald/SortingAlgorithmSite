@@ -2,7 +2,8 @@ const canvas = document.getElementById("drawing")
 const originalWidth = canvas.width
 const originalHeight = canvas.height
 const ctx = canvas.getContext("2d")
-const audioContext = new window.AudioContext();
+let audioContext
+let render = true
 soundArr = [
 // Octave 5
     523.25,  // C
@@ -77,17 +78,31 @@ soundArr = [
 
 colorArr =["blue","black","red"]
 
+document.getElementById("stop-button").addEventListener("click", function(){
+    render = false
+})
+
+document.getElementById("clear-button").addEventListener("click", function(){
+    render = false
+    clearCanvas()
+})
+
 document.getElementById("bubble-button").addEventListener("click", function(){
+    audioContext = new window.AudioContext();
+    render = false
+    stopCanvas()
     arr = makeArray()
     bubbleSort(arr, soundArr)
 })
 
+async function stopCanvas(){
+    console.log("stopped")
+    await wait(100)
+}
 
 function clearCanvas(){
     ctx.clearRect(0,0,originalWidth,originalHeight)
 }
-
-
 function makeBlock(arr, index){
     const blockLength = 10;
     const base = originalHeight
@@ -133,10 +148,13 @@ function shuffleArray(array) {
 }
 
 async function bubbleSort(arr, soundArr){
+    render = true
     makeBlock(arr, 0)
-    let count = 0
     for (let i = 0; i <arr.length-1; i++){
         for (let j = 0; j<arr.length-1-i; j++){
+            if(render == false){
+                return
+            }
             if(arr[j] > arr[j+1]){
                 const temp = arr[j]
                 arr[j] = arr[j+1]
@@ -146,7 +164,6 @@ async function bubbleSort(arr, soundArr){
                 playSound(soundArr[j],10,0.01)
             }
             await wait(10)
-            count += 1
         }
     }
     makeLastBlock(arr)
@@ -188,6 +205,7 @@ async function makeLastBlock(arr){
     const blockLength = 10;
     const base = originalHeight
     for (let i = 0; i <arr.length; i++){
+
         ctx.beginPath()
         ctx.fillStyle = colorArr[2]
         ctx.moveTo(5 + i * blockLength,base)
@@ -195,6 +213,7 @@ async function makeLastBlock(arr){
         ctx.lineTo(blockLength -2+ i * blockLength,base-1-5*arr[i])
         ctx.lineTo(5 + i * blockLength,base-5*arr[i]-1)
         ctx.fill()
+
         playSound(soundArr[i],20,0.01)
         await wait(20)
     }

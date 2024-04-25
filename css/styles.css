@@ -27,6 +27,23 @@
     /*border: 1px solid #000;
     background: blue;*/
 }
+#second-button-column{
+    display: flex;
+    padding: 1rem;
+    justify-content: center;
+}
+.negative-button{
+  background-color: #f44336;
+  border: 1px solid #000;
+  border-radius: 1rem;
+  color: white;
+  padding: 15px 32px;
+  margin: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
 #drawing{
     height: 400px;
     background: white;
