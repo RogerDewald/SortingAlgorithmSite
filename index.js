@@ -17,7 +17,7 @@ document.getElementById("clear-button").addEventListener("click", function(){
 document.getElementById("bubble-button").addEventListener("click", async function(){
     audioContext = new window.AudioContext();
     render = false
-    await wait(20)
+    await wait(speedSelect())
     arr = makeArray()
     bubbleSort(arr)
 })
@@ -185,7 +185,7 @@ async function selectionSort(arr) {
 document.getElementById("selectionSort-button").addEventListener("click", async function() {
     audioContext = new window.AudioContext();
     render = false
-    await wait(20)
+    await wait(speedSelect())
     arr = makeArray()
     selectionSort(arr)
 })
@@ -205,7 +205,6 @@ async function insertionSort(arr) {
             arr[j + 1] = arr[j];
             j--;
 
-            console.log(j)
             makeBlock(arr, j)
             await wait(speedSelect())
         }
@@ -218,7 +217,7 @@ async function insertionSort(arr) {
 document.getElementById("insertionSort-button").addEventListener("click", async function(){
     audioContext = new window.AudioContext();
     render = false
-    await wait(20)
+    await wait(speedSelect())
     arr = makeArray()
     insertionSort(arr)
 })
