@@ -135,10 +135,6 @@ async function makeLastBlock(arr){
     }
 }
 
-document.getElementById("linker").addEventListener("click", function(){
-    window.location.href="https://rogerdewald.github.io/DailybreadAirtableDB/"
-})
-
 function speedSelect(){
     let speed = document.getElementById("speed-select").value
     if (speed == 1){
