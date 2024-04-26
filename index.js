@@ -19,13 +19,15 @@ document.getElementById("bubble-button").addEventListener("click", async functio
     render = false
     await wait(20)
     arr = makeArray()
-    bubbleSort(arr, soundArr)
+    bubbleSort(arr)
 })
 
 function clearCanvas(){
     ctx.clearRect(0,0,originalWidth,originalHeight)
 }
+
 function makeBlock(arr, index){
+    clearCanvas()
     const blockLength = 10;
     const base = originalHeight
     for (let i = 0; i <arr.length; i++){
@@ -41,17 +43,8 @@ function makeBlock(arr, index){
         ctx.lineTo(blockLength -2+ i * blockLength,base-1-5*arr[i])
         ctx.lineTo(5 + i * blockLength,base-5*arr[i]-1)
         ctx.fill()
-
-        //ctx.beginPath()
-        //ctx.rect(5 + i * blockLength,
-        //    base,
-        //    blockLength - 2+ i * blockLength,
-        //    base-5*arr[i]-1
-        //)
-        //ctx.fill()
-        //ctx.lineTo(5 + i * blockLength,base)
-
     }
+    playSound(soundArr[index],10,0.01)
 }
 
 function makeArray(){
@@ -69,7 +62,7 @@ function shuffleArray(array) {
   return array;
 }
 
-async function bubbleSort(arr, soundArr){
+async function bubbleSort(arr){
     render = true
     makeBlock(arr, 0)
     for (let i = 0; i <arr.length-1; i++){
@@ -81,11 +74,9 @@ async function bubbleSort(arr, soundArr){
                 const temp = arr[j]
                 arr[j] = arr[j+1]
                 arr[j+1] = temp
-                clearCanvas()
-                makeBlock(arr, j)
-                playSound(soundArr[j],10,0.01)
             }
-            await wait(10)
+            makeBlock(arr, j)
+            await wait(speedSelect())
         }
     }
     makeLastBlock(arr)
@@ -137,10 +128,61 @@ async function makeLastBlock(arr){
         ctx.fill()
 
         playSound(soundArr[i],20,0.01)
-        await wait(20)
+        await wait(speedSelect())
     }
 }
 
 document.getElementById("linker").addEventListener("click", function(){
     window.location.href="https://rogerdewald.github.io/DailybreadAirtableDB/"
+})
+
+function speedSelect(){
+    let speed = document.getElementById("speed-select").value
+    if (speed == 1){
+        return 100
+    }
+    if (speed == 2){
+        return 30
+    }
+    if (speed == 3){
+        return 10
+    }
+}
+
+async function selectionSort(arr) {
+    render = true
+    makeBlock(arr, 0)
+
+    const n = arr.length;
+    for (let i = 0; i < n - 1; i++) {
+        let minIndex = i;
+        for (let j = i + 1; j < n; j++) {
+            if(render == false){
+                return
+            }
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+            makeBlock(arr, j)
+            await wait(speedSelect())
+        }
+        if (minIndex !== i) {
+            // Swap elements
+            let temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+    }
+    makeBlock(arr, 0)
+    await wait(speedSelect())
+
+    makeLastBlock(arr)
+}
+
+document.getElementById("selectionSort-button").addEventListener("click", async function() {
+    audioContext = new window.AudioContext();
+    render = false
+    await wait(20)
+    arr = makeArray()
+    selectionSort(arr, soundArr)
 })
