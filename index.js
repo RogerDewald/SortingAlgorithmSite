@@ -28,6 +28,9 @@ function clearCanvas(){
 
 function makeBlock(arr, index){
     clearCanvas()
+    if (index == -1){
+        index = 0
+    }
     const blockLength = 10;
     const base = originalHeight
     for (let i = 0; i <arr.length; i++){
@@ -184,5 +187,39 @@ document.getElementById("selectionSort-button").addEventListener("click", async 
     render = false
     await wait(20)
     arr = makeArray()
-    selectionSort(arr, soundArr)
+    selectionSort(arr)
 })
+
+async function insertionSort(arr) {
+    render = true
+    makeBlock(arr, 0)
+
+    const n = arr.length;
+    for (let i = 1; i < n; i++) {
+        let key = arr[i];
+        let j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            if(render == false){
+                return
+            }
+            arr[j + 1] = arr[j];
+            j--;
+
+            console.log(j)
+            makeBlock(arr, j)
+            await wait(speedSelect())
+        }
+        arr[j + 1] = key;
+    }
+    makeBlock(arr, 0)
+    makeLastBlock(arr)
+}
+
+document.getElementById("insertionSort-button").addEventListener("click", async function(){
+    audioContext = new window.AudioContext();
+    render = false
+    await wait(20)
+    arr = makeArray()
+    insertionSort(arr)
+})
+
