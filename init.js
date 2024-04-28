@@ -71,3 +71,14 @@ soundArr = [
 ]
 
 colorArr =["blue","black","red"]
+
+document.title = "Sorting Algorithms"
+let title = document.title
+
+window.addEventListener("blur", function(){
+    document.title = "Come back ☹️"
+})
+
+window.addEventListener("focus", function(){
+    document.title = title
+})

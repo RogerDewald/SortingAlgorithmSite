@@ -77,8 +77,9 @@ async function bubbleSort(arr){
                 const temp = arr[j]
                 arr[j] = arr[j+1]
                 arr[j+1] = temp
+                newMakeBlock(arr, j)
             }
-            makeBlock(arr, j)
+            newMakeBlock(arr, j)
             await wait(speedSelect())
         }
     }
@@ -218,3 +219,26 @@ document.getElementById("insertionSort-button").addEventListener("click", async 
     insertionSort(arr)
 })
 
+function newMakeBlock(arr, index){
+    clearBox(index)
+    if (index == -1){
+        index = 0
+    }
+
+    const blockLength = 10;
+    const base = originalHeight
+    ctx.beginPath()
+    ctx.fillStyle = colorArr[0]
+    ctx.moveTo(5 + index * blockLength,base)
+    ctx.lineTo(blockLength - 2+ index * blockLength,base)
+    ctx.lineTo(blockLength -2+ index * blockLength,base-1-5*arr[index])
+    ctx.lineTo(5 + index * blockLength,base-5*arr[index]-1)
+    ctx.fill()
+    playSound(soundArr[index],10,0.01)
+}
+
+function clearBox(index){
+    const blockLength = 10;
+    const base = originalHeight
+    ctx.clearRect(5 + index * blockLength,base-1-5*arr[index],blockLength +2+ index * blockLength,base)
+}
