@@ -70,7 +70,7 @@ soundArr = [
     15804.26,// B
 ]
 
-colorArr =["blue","black","red"]
+colorArr =["blue","black","red", "green", "orange"]
 
 document.title = "Sorting Algorithms"
 let title = document.title
