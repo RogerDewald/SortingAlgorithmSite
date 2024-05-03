@@ -51,7 +51,7 @@ function makeColumn(arr, index, color) {
     ctx.moveTo(5 + index * blockLength, base)
     ctx.lineTo(blockLength - 2 + index * blockLength, base)
     ctx.lineTo(blockLength - 2 + index * blockLength, base - 1 - 5 * arr[index])
-    ctx.lineTo(5 + index * blockLength, base - 5 * arr[index] - 1)
+    ctx.lineTo(5 + index * blockLength, base -  5 * arr[index] - 1)
     ctx.fill()
 
     if (color == 0) {
@@ -235,15 +235,15 @@ async function insertionSort(arr) {
     oldI = 0
 
     for (let i = 1; i < arr.length; i++) {
-        if (render == false) {
-            return
-        }
         let key = arr[i];
         makeColumn(arr, oldI, 1)
         makeColumn(arr, i, 4)
         oldI = i
         let j = i - 1;
         while (j >= 0 && arr[j] > key) {
+            if (render == false) {
+                return
+            }
             arr[j + 1] = arr[j];
             j--;
 
