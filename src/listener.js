@@ -32,4 +32,15 @@ document.getElementById("insertionSort-button").addEventListener("click", async 
     insertionSort(arr)
 })
 
+//document.getElementById("mergeSort-button").addEventListener("click", async function(){
+//    audioContext = new window.AudioContext()
+//    render = false
+//    await wait(speedSelect() + 5)
+//    arr = makeArray()
+//    clearCanvas()
+//    makeBlock(arr, 1)
+//    mergeSort(arr, arr)
+//
+//})
+
 

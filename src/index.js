@@ -39,7 +39,7 @@ function clearColumn(index) {
     ctx.clearRect(5 + index * blockLength, 0, 3, base)
 }
 
-function makeColumn(arr, index, color) {
+async function makeColumn(arr, index, color) {
     clearColumn(index);
     const blockLength = 10;
     const base = originalHeight
@@ -51,12 +51,14 @@ function makeColumn(arr, index, color) {
     ctx.moveTo(5 + index * blockLength, base)
     ctx.lineTo(blockLength - 2 + index * blockLength, base)
     ctx.lineTo(blockLength - 2 + index * blockLength, base - 1 - 5 * arr[index])
-    ctx.lineTo(5 + index * blockLength, base -  5 * arr[index] - 1)
+    ctx.lineTo(5 + index * blockLength, base - 5 * arr[index] - 1)
     ctx.fill()
 
     if (color == 0) {
         playSound(soundArr[index], 10, 0.01)
     }
+    await wait(speedSelect())
+    console.log("yo")
 }
 
 function makeArray() {
@@ -253,7 +255,7 @@ async function insertionSort(arr) {
             oldShifted.push(parseInt(j + 1))
 
         }
-        for (let index = arr.length - 1; index > 0; index--){
+        for (let index = arr.length - 1; index > 0; index--) {
             makeColumn(arr, index, 1)
         }
 
@@ -266,3 +268,46 @@ async function insertionSort(arr) {
     makeBlock(arr, 0)
     makeLastBlock(arr)
 }
+
+//function mergeSort(arr, constArr) {
+//    render = true;
+//    if (arr.length <= 1) {
+//        return arr;
+//    }
+//
+//    const middle = Math.floor(arr.length / 2);
+//    const left = arr.slice(0, middle);
+//    const right = arr.slice(middle);
+//    let mergedLeft = mergeSort(mergeSort(left, constArr))
+//    let mergedRight = mergeSort(mergeSort(right, constArr))
+//
+//
+//    let answer = merge(mergedLeft, mergedRight, constArr);
+//    console.log(answer)
+//    return answer
+//
+//}
+//
+//function merge(left, right, constArr) {
+//    if (render == false) {
+//        return
+//    }
+//
+//    let result = [];
+//    let leftIndex = 0;
+//    let rightIndex = 0;
+//
+//    while (leftIndex < left.length && rightIndex < right.length) {
+//        if (left[leftIndex] < right[rightIndex]) {
+//            result.push(left[leftIndex]);
+//            makeColumn(constArr, parseInt(left[leftIndex]), 0)
+//            leftIndex++;
+//        } else {
+//            result.push(right[rightIndex]);
+//            makeColumn(constArr, parseInt(right[rightIndex]), 0)
+//            rightIndex++;
+//        }
+//    }
+//
+//    return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+//}
