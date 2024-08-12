@@ -39,7 +39,7 @@ function clearColumn(index) {
     ctx.clearRect(5 + index * blockLength, 0, 3, base)
 }
 
-async function makeColumn(arr, index, color) {
+function makeColumn(arr, index, color) {
     clearColumn(index);
     const blockLength = 10;
     const base = originalHeight
@@ -57,8 +57,8 @@ async function makeColumn(arr, index, color) {
     if (color == 0) {
         playSound(soundArr[index], 10, 0.01)
     }
-    await wait(speedSelect())
-    console.log("yo")
+    //await wait(speedSelect())
+    //console.log("yo")
 }
 
 function makeArray() {
@@ -269,45 +269,134 @@ async function insertionSort(arr) {
     makeLastBlock(arr)
 }
 
-//function mergeSort(arr, constArr) {
-//    render = true;
-//    if (arr.length <= 1) {
-//        return arr;
-//    }
-//
-//    const middle = Math.floor(arr.length / 2);
-//    const left = arr.slice(0, middle);
-//    const right = arr.slice(middle);
-//    let mergedLeft = mergeSort(mergeSort(left, constArr))
-//    let mergedRight = mergeSort(mergeSort(right, constArr))
-//
-//
-//    let answer = merge(mergedLeft, mergedRight, constArr);
-//    console.log(answer)
-//    return answer
-//
-//}
-//
-//function merge(left, right, constArr) {
-//    if (render == false) {
-//        return
-//    }
-//
-//    let result = [];
-//    let leftIndex = 0;
-//    let rightIndex = 0;
-//
-//    while (leftIndex < left.length && rightIndex < right.length) {
-//        if (left[leftIndex] < right[rightIndex]) {
-//            result.push(left[leftIndex]);
-//            makeColumn(constArr, parseInt(left[leftIndex]), 0)
-//            leftIndex++;
-//        } else {
-//            result.push(right[rightIndex]);
-//            makeColumn(constArr, parseInt(right[rightIndex]), 0)
-//            rightIndex++;
-//        }
-//    }
-//
-//    return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
-//}
+async function mergeSort(arr, constArr) {
+    render = true;
+    if (arr.length <= 1) {
+        return arr;
+    }
+
+    const middle = Math.ceil(arr.length / 2);
+    const left = arr.slice(0, middle)
+    const right = arr.slice(middle, arr.length);
+    const mergedLeft = await mergeSort(left, constArr)
+    const mergedRight = await mergeSort(right, constArr)
+
+    let promise = await merge(mergedLeft, mergedRight, constArr);
+    if (promise.length == constArr.length) {
+        makeBlockWithObjs(promise, 1)
+        makeLastBlockWithObjs(promise)
+    }
+    return promise
+}
+
+async function merge(left, right) {
+    if (render == false) {
+        return
+    }
+
+    let result = [];
+    let leftIndex = 0;
+    let rightIndex = 0;
+
+    while (leftIndex < left.length && rightIndex < right.length) {
+        if (left[leftIndex].height < right[rightIndex].height) {
+            result.push(left[leftIndex]);
+            makeColumnWithObjs(left[leftIndex], 0)
+            await wait(speedSelect())
+            leftIndex++;
+        } else {
+            let temporary = left[leftIndex].pos
+            left[leftIndex].pos = right[rightIndex].pos
+            right[rightIndex].pos = temporary
+            result.push(right[rightIndex]);
+            makeColumnWithObjs(right[rightIndex], 0)
+            await wait(speedSelect())
+            rightIndex++;
+        }
+    }
+
+    let yo = result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+    return yo
+}
+
+function ArrayObj(position, objheight) {
+    this.pos = position
+    this.height = objheight
+}
+
+function makeArrayObjs() {
+    let arr = Array.from({ length: 30 })
+    arr = arr.map((_, index) => index);
+    arr = shuffleArray(arr)
+    let returnArray = []
+    for (let i = 0; i < arr.length; i++) {
+        let temp = new ArrayObj(i, arr[i])
+        returnArray.push(temp)
+    }
+    return returnArray
+}
+
+function makeBlockWithObjs(arr, index) {
+    clearCanvas()
+    if (index == -1) {
+        index = 0
+    }
+    const blockLength = 10;
+    const base = originalHeight
+    for (let i = 0; i < arr.length; i++) {
+        ctx.beginPath()
+        if (i == index) {
+            ctx.fillStyle = colorArr[0]
+        }
+        else {
+            ctx.fillStyle = colorArr[1]
+        }
+        ctx.moveTo(5 + i * blockLength, base)
+        ctx.lineTo(blockLength - 2 + i * blockLength, base)
+        ctx.lineTo(blockLength - 2 + i * blockLength, base - 1 - 5 * arr[i].height)
+        ctx.lineTo(5 + i * blockLength, base - 5 * arr[i].height - 1)
+        ctx.fill()
+    }
+    playSound(soundArr[index], 10, 0.01)
+}
+
+function makeColumnWithObjs(obj, color) {
+    index = obj.pos
+    clearColumn(index);
+    const blockLength = 10;
+    const base = originalHeight
+    if (index == -1) {
+        index = 0
+    }
+    ctx.beginPath()
+    ctx.fillStyle = colorArr[color]
+    ctx.moveTo(5 + index * blockLength, base)
+    ctx.lineTo(blockLength - 2 + index * blockLength, base)
+    ctx.lineTo(blockLength - 2 + index * blockLength, base - 1 - 5 * arr[index].height)
+    ctx.lineTo(5 + index * blockLength, base - 5 * arr[index].height - 1)
+    ctx.fill()
+
+    if (color == 0) {
+        playSound(soundArr[index], 10, 0.01)
+    }
+    //await wait(speedSelect())
+    //console.log("yo")
+}
+
+async function makeLastBlockWithObjs(arr) {
+    const blockLength = 10;
+    const base = originalHeight
+    for (let i = 0; i < arr.length; i++) {
+
+        ctx.beginPath()
+        ctx.fillStyle = colorArr[2]
+        ctx.moveTo(5 + i * blockLength, base)
+        ctx.lineTo(blockLength - 2 + i * blockLength, base)
+        ctx.lineTo(blockLength - 2 + i * blockLength, base - 1 - 5 * arr[i].height)
+        ctx.lineTo(5 + i * blockLength, base - 5 * arr[i].height - 1)
+        ctx.fill()
+
+        playSound(soundArr[i], 20, 0.01)
+        await wait(speedSelect())
+    }
+}
