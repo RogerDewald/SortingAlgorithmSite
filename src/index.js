@@ -269,7 +269,7 @@ async function insertionSort(arr) {
     makeLastBlock(arr)
 }
 
-async function mergeSort(arr, constArr) {
+async function mergeSort(arr) {
     render = true;
     if (arr.length <= 1) {
         return arr;
@@ -278,22 +278,21 @@ async function mergeSort(arr, constArr) {
     const middle = Math.ceil(arr.length / 2);
     const left = arr.slice(0, middle)
     const right = arr.slice(middle, arr.length);
-    const mergedLeft = await mergeSort(left, constArr)
-    const mergedRight = await mergeSort(right, constArr)
+    const mergedLeft = await mergeSort(left)
+    const mergedRight = await mergeSort(right)
 
-    let promise = await merge(mergedLeft, mergedRight, constArr);
-    if (promise.length == constArr.length) {
-        makeBlockWithObjs(promise, 1)
-        makeLastBlockWithObjs(promise)
-    }
-    return promise
+    let promise = await merge(structuredClone(mergedLeft), structuredClone(mergedRight))
+    //if (promise.length == 30) {
+    //    makeBlockWithObjs(promise, 1)
+    //    makeLastBlockWithObjs(promise)
+    //}
+    return structuredClone(promise)
 }
 
 async function merge(left, right) {
     if (render == false) {
         return
     }
-
     let result = [];
     let leftIndex = 0;
     let rightIndex = 0;
@@ -316,12 +315,17 @@ async function merge(left, right) {
     }
 
     let yo = result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
-    return yo
+    console.log(left)
+    console.log(right)
+    console.log(yo)
+    return structuredClone(yo)
 }
 
-function ArrayObj(position, objheight) {
-    this.pos = position
-    this.height = objheight
+class ArrayObj {
+    constructor(position,objheight){
+        this.pos = position
+        this.height = objheight
+    }
 }
 
 function makeArrayObjs() {
@@ -361,23 +365,23 @@ function makeBlockWithObjs(arr, index) {
 }
 
 function makeColumnWithObjs(obj, color) {
-    index = obj.pos
-    clearColumn(index);
+    clearColumn(obj.pos);
+    let position = obj.pos
     const blockLength = 10;
     const base = originalHeight
-    if (index == -1) {
-        index = 0
+    if (position == -1) {
+        position = 0
     }
     ctx.beginPath()
     ctx.fillStyle = colorArr[color]
-    ctx.moveTo(5 + index * blockLength, base)
-    ctx.lineTo(blockLength - 2 + index * blockLength, base)
-    ctx.lineTo(blockLength - 2 + index * blockLength, base - 1 - 5 * arr[index].height)
-    ctx.lineTo(5 + index * blockLength, base - 5 * arr[index].height - 1)
+    ctx.moveTo(5 + position * blockLength, base)
+    ctx.lineTo(blockLength - 2 + position * blockLength, base)
+    ctx.lineTo(blockLength - 2 + position * blockLength, base - 1 - 5 * obj.height)
+    ctx.lineTo(5 + position * blockLength, base - 5 * obj.height - 1)
     ctx.fill()
 
     if (color == 0) {
-        playSound(soundArr[index], 10, 0.01)
+        playSound(soundArr[position], 10, 0.01)
     }
     //await wait(speedSelect())
     //console.log("yo")

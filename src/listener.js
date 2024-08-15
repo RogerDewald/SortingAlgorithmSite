@@ -13,6 +13,7 @@ document.getElementById("bubble-button").addEventListener("click", async functio
     render = false
     await wait(speedSelect() + 5)
     arr = makeArray()
+    console.log(arr)
     bubbleSort(arr)
 })
 
