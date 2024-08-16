@@ -282,10 +282,6 @@ async function mergeSort(arr) {
     const mergedRight = await mergeSort(right)
 
     let promise = await merge(structuredClone(mergedLeft), structuredClone(mergedRight))
-    //if (promise.length == 30) {
-    //    makeBlockWithObjs(promise, 1)
-    //    makeLastBlockWithObjs(promise)
-    //}
     return structuredClone(promise)
 }
 
@@ -303,10 +299,6 @@ async function merge(leftarr, rightarr) {
     for (let j = 0; j < right.length; j++) {
         positionArr.push(right[j].pos)
     }
-    //console.log(positionArr)
-    //console.log(left)
-    //console.log(right)
-
 
     let result = [];
     let leftIndex = 0;
@@ -420,8 +412,6 @@ function makeColumnWithObjs(obj, color) {
     if (color == 0) {
         playSound(soundArr[position], 10, 0.01)
     }
-    //await wait(speedSelect())
-    //console.log("yo")
 }
 
 async function makeLastBlockWithObjs(arr) {
