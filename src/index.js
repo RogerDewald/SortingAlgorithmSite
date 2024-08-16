@@ -289,40 +289,77 @@ async function mergeSort(arr) {
     return structuredClone(promise)
 }
 
-async function merge(left, right) {
+async function merge(leftarr, rightarr) {
     if (render == false) {
         return
     }
+    left = structuredClone(leftarr)
+    right = structuredClone(rightarr)
+    let positionArr = []
+
+    for (let i = 0; i < left.length; i++) {
+        positionArr.push(left[i].pos)
+    }
+    for (let j = 0; j < right.length; j++) {
+        positionArr.push(right[j].pos)
+    }
+    //console.log(positionArr)
+    //console.log(left)
+    //console.log(right)
+
+
     let result = [];
     let leftIndex = 0;
     let rightIndex = 0;
+    let posIndex = 0
 
     while (leftIndex < left.length && rightIndex < right.length) {
+        console.log(posIndex)
         if (left[leftIndex].height < right[rightIndex].height) {
-            result.push(left[leftIndex]);
-            makeColumnWithObjs(left[leftIndex], 0)
             await wait(speedSelect())
+            left[leftIndex].pos = positionArr[posIndex]
+            result.push(left[leftIndex])
+            makeColumnWithObjs(left[leftIndex], 0)
+            posIndex++;
             leftIndex++;
         } else {
-            let temporary = left[leftIndex].pos
-            left[leftIndex].pos = right[rightIndex].pos
-            right[rightIndex].pos = temporary
-            result.push(right[rightIndex]);
-            makeColumnWithObjs(right[rightIndex], 0)
             await wait(speedSelect())
+            right[rightIndex].pos = positionArr[posIndex]
+            result.push(right[rightIndex])
+            makeColumnWithObjs(right[rightIndex], 0)
+            posIndex++
             rightIndex++;
         }
     }
+    while (leftIndex < left.length) {
+        await wait(speedSelect())
+        left[leftIndex].pos = positionArr[posIndex]
+        result.push(left[leftIndex])
+        makeColumnWithObjs(left[leftIndex], 0)
+        leftIndex++;
+        posIndex++
+    }
 
-    let yo = result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
-    console.log(left)
-    console.log(right)
-    console.log(yo)
-    return structuredClone(yo)
+    // Copy the remaining elements of R[], if there are any
+    while (rightIndex < right.length) {
+        await wait(speedSelect())
+        right[rightIndex].pos = positionArr[posIndex]
+        result.push(right[rightIndex])
+        makeColumnWithObjs(right[rightIndex], 0)
+        rightIndex++;
+        posIndex++
+    }
+
+    if (result.length < 30) {
+        result.forEach((element) => {
+            makeColumnWithObjs(element, 4)
+        })
+    }
+    return structuredClone(result)
 }
 
 class ArrayObj {
-    constructor(position,objheight){
+    constructor(position, objheight) {
         this.pos = position
         this.height = objheight
     }
