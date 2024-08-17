@@ -267,7 +267,7 @@ async function insertionSort(arr) {
 }
 
 async function mergeSort(arr) {
-    render = true;
+    render = true
     if (arr.length <= 1) {
         return arr;
     }
@@ -276,8 +276,13 @@ async function mergeSort(arr) {
     const left = arr.slice(0, middle)
     const right = arr.slice(middle, arr.length);
     const mergedLeft = await mergeSort(left)
+    if (render == false) {
+        return
+    }
     const mergedRight = await mergeSort(right)
-
+    if (render == false) {
+        return
+    }
     let promise = await merge(structuredClone(mergedLeft), structuredClone(mergedRight))
     if (render == false) {
         return
@@ -306,7 +311,13 @@ async function merge(leftarr, rightarr) {
     let posIndex = 0
 
     while (leftIndex < left.length && rightIndex < right.length) {
+        if (render == false) {
+            return
+        }
         if (left[leftIndex].height < right[rightIndex].height) {
+            if (render == false) {
+                return
+            }
             left[leftIndex].pos = positionArr[posIndex]
             result.push(left[leftIndex])
             makeColumnWithObjs(left[leftIndex], 0)
@@ -314,6 +325,9 @@ async function merge(leftarr, rightarr) {
             posIndex++;
             leftIndex++;
         } else {
+            if (render == false) {
+                return
+            }
             right[rightIndex].pos = positionArr[posIndex]
             result.push(right[rightIndex])
             makeColumnWithObjs(right[rightIndex], 0)
@@ -323,6 +337,9 @@ async function merge(leftarr, rightarr) {
         }
     }
     while (leftIndex < left.length) {
+        if (render == false) {
+            return
+        }
         left[leftIndex].pos = positionArr[posIndex]
         result.push(left[leftIndex])
         makeColumnWithObjs(left[leftIndex], 0)
@@ -333,6 +350,9 @@ async function merge(leftarr, rightarr) {
 
     // Copy the remaining elements of R[], if there are any
     while (rightIndex < right.length) {
+        if (render == false) {
+            return
+        }
         right[rightIndex].pos = positionArr[posIndex]
         result.push(right[rightIndex])
         makeColumnWithObjs(right[rightIndex], 0)
@@ -340,9 +360,11 @@ async function merge(leftarr, rightarr) {
         rightIndex++;
         posIndex++
     }
-    result.forEach((element) => {
-        makeColumnWithObjs(element, 1)
-    })
+    if (result.length < 30) {
+        result.forEach((element) => {
+            makeColumnWithObjs(element, 1)
+        })
+    }
 
     return structuredClone(result)
 }
@@ -428,27 +450,6 @@ async function makeLastBlockWithObjs(arr) {
         await wait(speedSelect())
     }
 }
-
-//function quicksort(arr) {
-//    console.log(arr)
-//    if (arr.length <= 1) {
-//        return arr;
-//    }
-//
-//    const pivot = arr[arr.length - 1];
-//    const left = [];
-//    const right = [];
-//
-//    for (let i = 0; i < arr.length - 1; i++) {
-//        if (arr[i].height < pivot.height) {
-//            left.push(arr[i]);
-//        } else {
-//            right.push(arr[i]);
-//        }
-//    }
-//
-//    return [...quicksort(left), pivot, ...quicksort(right)];
-//}
 
 async function quicksort(arr, left = 0, right = arr.length - 1) {
     render = true

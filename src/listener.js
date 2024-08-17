@@ -47,6 +47,7 @@ document.getElementById("quicksort-button").addEventListener("click", async func
     arr = makeArray()
     await wait(speedSelect() + 5)
     makeBlock(arr, 1)
+    render = true
     await quicksort(arr)
 })
 
