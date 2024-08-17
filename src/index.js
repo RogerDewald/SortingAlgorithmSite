@@ -282,6 +282,9 @@ async function mergeSort(arr) {
     const mergedRight = await mergeSort(right)
 
     let promise = await merge(structuredClone(mergedLeft), structuredClone(mergedRight))
+    if (render == false) {
+        return
+    }
     return structuredClone(promise)
 }
 
