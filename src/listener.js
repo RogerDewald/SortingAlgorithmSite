@@ -13,7 +13,6 @@ document.getElementById("bubble-button").addEventListener("click", async functio
     render = false
     await wait(speedSelect() + 5)
     arr = makeArray()
-    console.log(arr)
     bubbleSort(arr)
 })
 
@@ -33,15 +32,23 @@ document.getElementById("insertionSort-button").addEventListener("click", async 
     insertionSort(arr)
 })
 
-document.getElementById("mergeSort-button").addEventListener("click", async function(){
+document.getElementById("mergeSort-button").addEventListener("click", async function() {
     audioContext = new window.AudioContext()
     render = false
     arr = makeArrayObjs()
     await wait(speedSelect() + 5)
     makeBlockWithObjs(arr, 1)
-    console.log(arr)
     mergeSort(arr, arr)
 
 })
+document.getElementById("quicksort-button").addEventListener("click", async function() {
+    audioContext = new window.AudioContext()
+    render = false
+    arr = makeArray()
+    await wait(speedSelect() + 5)
+    makeBlock(arr, 1)
+    await quicksort(arr)
+})
+
 
 

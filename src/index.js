@@ -57,8 +57,6 @@ function makeColumn(arr, index, color) {
     if (color == 0) {
         playSound(soundArr[index], 10, 0.01)
     }
-    //await wait(speedSelect())
-    //console.log("yo")
 }
 
 function makeArray() {
@@ -111,7 +109,6 @@ async function bubbleSort(arr) {
                     makeColumn(arr, swapped, 1)
 
                     makeColumn(arr, j + 1, 0)
-                    await wait(speedSelect())
                     oldJ = j + 1
                 }
 
@@ -309,47 +306,44 @@ async function merge(leftarr, rightarr) {
     let posIndex = 0
 
     while (leftIndex < left.length && rightIndex < right.length) {
-        console.log(posIndex)
         if (left[leftIndex].height < right[rightIndex].height) {
-            await wait(speedSelect())
             left[leftIndex].pos = positionArr[posIndex]
             result.push(left[leftIndex])
             makeColumnWithObjs(left[leftIndex], 0)
+            await wait(speedSelect())
             posIndex++;
             leftIndex++;
         } else {
-            await wait(speedSelect())
             right[rightIndex].pos = positionArr[posIndex]
             result.push(right[rightIndex])
             makeColumnWithObjs(right[rightIndex], 0)
+            await wait(speedSelect())
             posIndex++
             rightIndex++;
         }
     }
     while (leftIndex < left.length) {
-        await wait(speedSelect())
         left[leftIndex].pos = positionArr[posIndex]
         result.push(left[leftIndex])
         makeColumnWithObjs(left[leftIndex], 0)
+        await wait(speedSelect())
         leftIndex++;
         posIndex++
     }
 
     // Copy the remaining elements of R[], if there are any
     while (rightIndex < right.length) {
-        await wait(speedSelect())
         right[rightIndex].pos = positionArr[posIndex]
         result.push(right[rightIndex])
         makeColumnWithObjs(right[rightIndex], 0)
+        await wait(speedSelect())
         rightIndex++;
         posIndex++
     }
+    result.forEach((element) => {
+        makeColumnWithObjs(element, 1)
+    })
 
-    if (result.length < 30) {
-        result.forEach((element) => {
-            makeColumnWithObjs(element, 4)
-        })
-    }
     return structuredClone(result)
 }
 
@@ -433,4 +427,71 @@ async function makeLastBlockWithObjs(arr) {
         playSound(soundArr[i], 20, 0.01)
         await wait(speedSelect())
     }
+}
+
+//function quicksort(arr) {
+//    console.log(arr)
+//    if (arr.length <= 1) {
+//        return arr;
+//    }
+//
+//    const pivot = arr[arr.length - 1];
+//    const left = [];
+//    const right = [];
+//
+//    for (let i = 0; i < arr.length - 1; i++) {
+//        if (arr[i].height < pivot.height) {
+//            left.push(arr[i]);
+//        } else {
+//            right.push(arr[i]);
+//        }
+//    }
+//
+//    return [...quicksort(left), pivot, ...quicksort(right)];
+//}
+
+async function quicksort(arr, left = 0, right = arr.length - 1) {
+    render = true
+    if (left >= right) {
+        return;
+    }
+
+    const pivotIndex = await partition(arr, left, right);
+    if (render == false) {
+        return
+    }
+    await quicksort(arr, left, pivotIndex - 1);
+    if (render == false) {
+        return
+    }
+    await quicksort(arr, pivotIndex + 1, right);
+    if (render == false) {
+        return
+    }
+}
+
+async function partition(arr, left, right) {
+    const pivot = arr[right];
+    makeColumn(arr, right, 2)
+    let i = left;
+
+    for (let j = left; j < right; j++) {
+        if (render == false) {
+            return
+        }
+        makeColumn(arr, j, 0)
+        await wait(speedSelect())
+        if (arr[j] < pivot) {
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+            makeColumn(arr, i, 4)
+            makeColumn(arr, j, 3)
+            i++;
+        }
+        makeColumn(arr, j, 1)
+    }
+
+    [arr[i], arr[right]] = [arr[right], arr[i]];
+    makeColumn(arr, i, 4)
+    makeColumn(arr, right, 3)
+    return i;
 }
