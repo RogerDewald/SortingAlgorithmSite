@@ -44,6 +44,18 @@
   display: inline-block;
   font-size: 16px;
 }
+.neutral-button{
+  background-color: #9047B4;
+  border: 1px solid #000;
+  border-radius: 1rem;
+  color: white;
+  padding: 15px 32px;
+  margin: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
 #drawing{
     height: 400px;
     background: white;

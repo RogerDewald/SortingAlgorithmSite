@@ -1,40 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title></title>
-        <link href="css/styles.css" rel="stylesheet">
-    </head>
-    <body>
-        <div id="wrapper"> 
-            <div id = "button-column">
-                <button id="bubble-button" class="button">Bubble Sort</button>
-                <button id="selectionSort-button" class="button">Selection Sort</button>
-                <button id="insertionSort-button" class="button">Insertion Sort</button>
-                <button id="mergeSort-button" class="button">Merge Sort</button>
-                <button id="quicksort-button" class="button">Quick Sort</button>
-                <button id="heapsort-button" class="button">Heap Sort</button>
-            </div>
 
-            <div id = "canvas-box">
-                <canvas id="drawing"></canvas> 
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link href="css/styles.css" rel="stylesheet">
+</head>
 
-            <div id = "second-button-column">
-                <select id="speed-select" class="negative-button">
-                    <option value="2"> Normal </option>
-                    <option value="1"> Slow </option>
-                    <option value="3"> Fast </option>
-                </select>
-                <button id="stop-button" class="negative-button">Stop</button>
-                <button id="clear-button" class="negative-button">Clear</button>
-            </div>
+<body>
+    <div id="wrapper">
+        <div id="button-column">
+            <button id="bubble-button" class="button">Bubble Sort</button>
+            <button id="selectionSort-button" class="button">Selection Sort</button>
+            <button id="insertionSort-button" class="button">Insertion Sort</button>
+            <button id="mergeSort-button" class="button">Merge Sort</button>
+            <button id="quicksort-button" class="button">Quick Sort</button>
+            <button id="heapsort-button" class="button">Heap Sort</button>
         </div>
 
-        <script src="src/init.js"></script>
-        <script src="src/listener.js"></script>
-        <script src="src/index.js"></script>
-    </body>
-        
+        <div id="canvas-box">
+            <canvas id="drawing"></canvas>
+        </div>
+
+        <div id="second-button-column">
+            <select id="speed-select" class="negative-button">
+                <option value="2">Speed: Normal</option>
+                <option value="1">Speed: Slow</option>
+                <option value="3">Speed: Fast</option>
+            </select>
+            <button id="stop-button" class="negative-button">Stop</button>
+            <button id="clear-button" class="negative-button">Clear</button>
+            <select id="size-select" class="neutral-button">
+                <option value="30">Size: small </option>
+                <option value="150">Size: large</option>
+            </select>
+
+        </div>
+    </div>
+
+    <script src="src/init.js"></script>
+    <script src="src/listener.js"></script>
+    <script src="src/index.js"></script>
+</body>
+
 </html>

@@ -560,3 +560,9 @@ async function heapify(arr, N, i) {
     makeColumn(arr, largest, 3)
     await wait(speedSelect())
 }
+
+function getSize(){
+    const size = parseInt(document.getElementById("size-select"))
+    console.log(size)
+    return size
+}
