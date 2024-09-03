@@ -14,8 +14,10 @@ function makeBlock(arr, index) {
     if (index == -1) {
         index = 0
     }
-    const blockLength = 2;
+    const blockLength = getLength();
     const base = originalHeight
+    const heightCoefficient = getHeightCoefficient()
+
     for (let i = 0; i < arr.length; i++) {
         ctx.beginPath()
         if (i == index) {
@@ -25,23 +27,24 @@ function makeBlock(arr, index) {
             ctx.fillStyle = colorArr[1]
         }
         ctx.moveTo(i * blockLength, base)
-        ctx.lineTo(blockLength  + i * blockLength, base)
-        ctx.lineTo(blockLength  + i * blockLength, base - 1 * arr[i])
-        ctx.lineTo(i * blockLength, base - 1 * arr[i])
+        ctx.lineTo(blockLength + i * blockLength, base)
+        ctx.lineTo(blockLength + i * blockLength, base - heightCoefficient * arr[i])
+        ctx.lineTo(i * blockLength, base - heightCoefficient * arr[i])
         ctx.fill()
     }
     //playSound(soundArr[index], 10, 0.01)
 }
 
 function clearColumn(index) {
-    const blockLength = 2;
+    const blockLength = getLength();
     const base = originalHeight
     ctx.clearRect(index * blockLength, 0, blockLength, base)
 }
 
 function makeColumn(arr, index, color) {
     clearColumn(index);
-    const blockLength = 2;
+    const blockLength = getLength();
+    const heightCoefficient = getHeightCoefficient()
     const base = originalHeight
     if (index == -1) {
         index = 0
@@ -50,8 +53,8 @@ function makeColumn(arr, index, color) {
     ctx.fillStyle = colorArr[color]
     ctx.moveTo(index * blockLength, base)
     ctx.lineTo(blockLength + index * blockLength, base)
-    ctx.lineTo(blockLength + index * blockLength, base - 1 * arr[index])
-    ctx.lineTo(index * blockLength, base - 1 * arr[index])
+    ctx.lineTo(blockLength + index * blockLength, base - heightCoefficient * arr[index])
+    ctx.lineTo(index * blockLength, base - heightCoefficient * arr[index])
     ctx.fill()
 
     if (color == 0) {
@@ -60,7 +63,8 @@ function makeColumn(arr, index, color) {
 }
 
 function makeArray() {
-    let arr = Array.from({ length: 150 })
+    const arrSize = sizeSelect()
+    let arr = Array.from({ length: arrSize })
     arr = arr.map((_, index) => index);
     arr = shuffleArray(arr)
     return arr
@@ -151,16 +155,17 @@ function playSound(frequency, duration, volume) {
 }
 
 async function makeLastBlock(arr) {
-    const blockLength = 2;
+    const blockLength = getLength();
+    const heightCoefficient = getHeightCoefficient()
     const base = originalHeight
     for (let i = 0; i < arr.length; i++) {
 
         ctx.beginPath()
         ctx.fillStyle = colorArr[2]
-        ctx.moveTo(5 + i * blockLength, base)
-        ctx.lineTo(blockLength - 2 + i * blockLength, base)
-        ctx.lineTo(blockLength - 2 + i * blockLength, base - 1 - 1 * arr[i])
-        ctx.lineTo(5 + i * blockLength, base - 1 * arr[i] - 1)
+        ctx.moveTo(i * blockLength, base)
+        ctx.lineTo(blockLength + i * blockLength, base)
+        ctx.lineTo(blockLength + i * blockLength, base - heightCoefficient * arr[i])
+        ctx.lineTo(i * blockLength, base - heightCoefficient * arr[i])
         ctx.fill()
 
         playSound(soundArr[i % 30], 20, 0.01)
@@ -360,7 +365,7 @@ async function merge(leftarr, rightarr) {
         rightIndex++;
         posIndex++
     }
-    if (result.length < 150) {
+    if (result.length < sizeSelect()) {
         result.forEach((element) => {
             makeColumnWithObjs(element, 1)
         })
@@ -377,7 +382,7 @@ class ArrayObj {
 }
 
 function makeArrayObjs() {
-    let arr = Array.from({ length: 150 })
+    let arr = Array.from({ length: sizeSelect() })
     arr = arr.map((_, index) => index);
     arr = shuffleArray(arr)
     let returnArray = []
@@ -393,8 +398,9 @@ function makeBlockWithObjs(arr, index) {
     if (index == -1) {
         index = 0
     }
-    const blockLength = 2;
+    const blockLength = getLength();
     const base = originalHeight
+    const heightCoefficient = getHeightCoefficient()
     for (let i = 0; i < arr.length; i++) {
         ctx.beginPath()
         if (i == index) {
@@ -405,8 +411,8 @@ function makeBlockWithObjs(arr, index) {
         }
         ctx.moveTo(i * blockLength, base)
         ctx.lineTo(blockLength + i * blockLength, base)
-        ctx.lineTo(blockLength + i * blockLength, base - 1 * arr[i].height)
-        ctx.lineTo(i * blockLength, base - 1 * arr[i].height)
+        ctx.lineTo(blockLength + i * blockLength, base - heightCoefficient * arr[i].height)
+        ctx.lineTo(i * blockLength, base - heightCoefficient * arr[i].height)
         ctx.fill()
     }
     playSound(soundArr[index % 30], 10, 0.01)
@@ -415,7 +421,8 @@ function makeBlockWithObjs(arr, index) {
 function makeColumnWithObjs(obj, color) {
     clearColumn(obj.pos);
     let position = obj.pos
-    const blockLength = 2;
+    const blockLength = getLength();
+    const heightCoefficient = getHeightCoefficient()
     const base = originalHeight
     if (position == -1) {
         position = 0
@@ -424,8 +431,8 @@ function makeColumnWithObjs(obj, color) {
     ctx.fillStyle = colorArr[color]
     ctx.moveTo(position * blockLength, base)
     ctx.lineTo(blockLength + position * blockLength, base)
-    ctx.lineTo(blockLength + position * blockLength, base - 1 * obj.height)
-    ctx.lineTo(position * blockLength, base - 1 * obj.height )
+    ctx.lineTo(blockLength + position * blockLength, base - heightCoefficient * obj.height)
+    ctx.lineTo(position * blockLength, base - heightCoefficient * obj.height)
     ctx.fill()
 
     if (color == 0) {
@@ -433,23 +440,23 @@ function makeColumnWithObjs(obj, color) {
     }
 }
 
-async function makeLastBlockWithObjs(arr) {
-    const blockLength = 2;
-    const base = originalHeight
-    for (let i = 0; i < arr.length; i++) {
-
-        ctx.beginPath()
-        ctx.fillStyle = colorArr[2]
-        ctx.moveTo(i * blockLength, base)
-        ctx.lineTo(blockLength + i * blockLength, base)
-        ctx.lineTo(blockLength + i * blockLength, base - 1 * arr[i].height)
-        ctx.lineTo(i * blockLength, base - 1 * arr[i].height )
-        ctx.fill()
-
-        playSound(soundArr[i % 30], 20, 0.01)
-        await wait(speedSelect())
-    }
-}
+//async function makeLastBlockWithObjs(arr) {
+//    const blockLength = 2;
+//    const base = originalHeight
+//    for (let i = 0; i < arr.length; i++) {
+//
+//        ctx.beginPath()
+//        ctx.fillStyle = colorArr[2]
+//        ctx.moveTo(i * blockLength, base)
+//        ctx.lineTo(blockLength + i * blockLength, base)
+//        ctx.lineTo(blockLength + i * blockLength, base - 1 * arr[i].height)
+//        ctx.lineTo(i * blockLength, base - 1 * arr[i].height)
+//        ctx.fill()
+//
+//        playSound(soundArr[i % 30], 20, 0.01)
+//        await wait(speedSelect())
+//    }
+//}
 
 async function quicksort(arr, left = 0, right = arr.length - 1) {
     render = true
@@ -561,8 +568,30 @@ async function heapify(arr, N, i) {
     await wait(speedSelect())
 }
 
-function getSize(){
-    const size = parseInt(document.getElementById("size-select"))
+function sizeSelect() {
+    const size = parseInt(document.getElementById("size-select").value)
     console.log(size)
     return size
+}
+
+function getLength() {
+    switch (sizeSelect()) {
+        case 30:
+            return 10
+        case 60:
+            return 5
+        case 150:
+            return 2
+    }
+}
+
+function getHeightCoefficient() {
+    switch (sizeSelect()) {
+        case 30:
+            return 5
+        case 60:
+            return 2.5
+        case 150:
+            return 1
+    }
 }
