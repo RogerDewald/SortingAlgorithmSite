@@ -29,6 +29,7 @@ function makeBlock(arr, index) {
     }
 }
 
+
 function clearColumn(index) {
     const blockLength = getLength();
     const base = originalHeight
@@ -52,7 +53,7 @@ function makeColumn(arr, index, color) {
     ctx.fill()
 
     if (color == 0) {
-        playSound(soundArr[index % 30], 10, 0.01)
+        playSound(soundSelect(index), 10, 0.01)
     }
 }
 
@@ -162,7 +163,7 @@ async function makeLastBlock(arr) {
         ctx.lineTo(i * blockLength, base - heightCoefficient * arr[i])
         ctx.fill()
 
-        playSound(soundArr[i % 30], 20, 0.01)
+        playSound(soundSelect(i), 20, 0.01)
         await wait(speedSelect())
     }
 }
@@ -221,7 +222,6 @@ async function selectionSort(arr) {
             oldI = i
         }
     }
-    makeBlock(arr, 0)
     makeLastBlock(arr)
 }
 
@@ -429,7 +429,7 @@ function makeColumnWithObjs(obj, color) {
     ctx.fill()
 
     if (color == 0) {
-        playSound(soundArr[position % 30], 10, 0.01)
+        playSound(soundSelect(position), 10, 0.01)
     }
 }
 
@@ -498,7 +498,7 @@ async function heapSort(arr) {
         arr[i] = temp;
         makeColumn(arr, i, 2)
         makeColumn(arr, 0, 4)
-        playSound(soundArr[i % 30], 10, 0.01)
+        playSound(soundSelect(i), 10, 0.01)
         await wait(speedSelect())
 
         // call max heapify on the reduced heap
@@ -567,5 +567,17 @@ function getHeightCoefficient() {
             return 2.5
         case 150:
             return 1
+    }
+}
+
+function soundSelect(i){
+    if (sizeSelect == 30) {
+        return 300 + 200 * i
+    }
+    else if (sizeSelect == 60){
+        return 300 + 100 * i
+    }
+    else {
+        return 300 + 40 * i
     }
 }

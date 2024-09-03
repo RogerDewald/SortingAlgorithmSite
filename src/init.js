@@ -83,3 +83,4 @@ window.addEventListener("focus", function(){
     document.title = title
 })
 
+let globalCurrentAlgorithm = ""
