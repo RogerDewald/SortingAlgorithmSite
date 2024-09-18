@@ -23,8 +23,8 @@ function makeBlock(arr, index) {
         ctx.fillStyle - colorArr[1]
         ctx.moveTo(i * blockLength, base)
         ctx.lineTo(blockLength + i * blockLength, base)
-        ctx.lineTo(blockLength + i * blockLength, base - heightCoefficient * arr[i])
-        ctx.lineTo(i * blockLength, base - heightCoefficient * arr[i])
+        ctx.lineTo(blockLength + i * blockLength, base - 1 - heightCoefficient * arr[i])
+        ctx.lineTo(i * blockLength, base - 1 - heightCoefficient * arr[i])
         ctx.fill()
     }
 }
@@ -48,8 +48,8 @@ function makeColumn(arr, index, color) {
     ctx.fillStyle = colorArr[color]
     ctx.moveTo(index * blockLength, base)
     ctx.lineTo(blockLength + index * blockLength, base)
-    ctx.lineTo(blockLength + index * blockLength, base - heightCoefficient * arr[index])
-    ctx.lineTo(index * blockLength, base - heightCoefficient * arr[index])
+    ctx.lineTo(blockLength + index * blockLength, base - 1 - heightCoefficient * arr[index])
+    ctx.lineTo(index * blockLength, base - 1 - heightCoefficient * arr[index])
     ctx.fill()
 
     if (color == 0) {
@@ -405,8 +405,8 @@ function makeBlockWithObjs(arr, index) {
         }
         ctx.moveTo(i * blockLength, base)
         ctx.lineTo(blockLength + i * blockLength, base)
-        ctx.lineTo(blockLength + i * blockLength, base - heightCoefficient * arr[i].height)
-        ctx.lineTo(i * blockLength, base - heightCoefficient * arr[i].height)
+        ctx.lineTo(blockLength + i * blockLength, base - 1 - heightCoefficient * arr[i].height)
+        ctx.lineTo(i * blockLength, base - 1 - heightCoefficient * arr[i].height)
         ctx.fill()
     }
 }
@@ -424,8 +424,8 @@ function makeColumnWithObjs(obj, color) {
     ctx.fillStyle = colorArr[color]
     ctx.moveTo(position * blockLength, base)
     ctx.lineTo(blockLength + position * blockLength, base)
-    ctx.lineTo(blockLength + position * blockLength, base - heightCoefficient * obj.height)
-    ctx.lineTo(position * blockLength, base - heightCoefficient * obj.height)
+    ctx.lineTo(blockLength + position * blockLength, base - 1 - heightCoefficient * obj.height)
+    ctx.lineTo(position * blockLength, base - 1 - heightCoefficient * obj.height)
     ctx.fill()
 
     if (color == 0) {
@@ -570,11 +570,11 @@ function getHeightCoefficient() {
     }
 }
 
-function soundSelect(i){
+function soundSelect(i) {
     if (sizeSelect == 30) {
         return 300 + 200 * i
     }
-    else if (sizeSelect == 60){
+    else if (sizeSelect == 60) {
         return 300 + 100 * i
     }
     else {
