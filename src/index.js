@@ -23,11 +23,12 @@ function makeBlock(arr, index) {
         ctx.fillStyle - colorArr[1]
         ctx.moveTo(i * blockLength, base)
         ctx.lineTo(blockLength + i * blockLength, base)
-        ctx.lineTo(blockLength + i * blockLength, base - heightCoefficient * arr[i])
-        ctx.lineTo(i * blockLength, base - heightCoefficient * arr[i])
+        ctx.lineTo(blockLength + i * blockLength, base - 1 - heightCoefficient * arr[i])
+        ctx.lineTo(i * blockLength, base - 1 - heightCoefficient * arr[i])
         ctx.fill()
     }
 }
+
 
 function clearColumn(index) {
     const blockLength = getLength();
@@ -47,12 +48,12 @@ function makeColumn(arr, index, color) {
     ctx.fillStyle = colorArr[color]
     ctx.moveTo(index * blockLength, base)
     ctx.lineTo(blockLength + index * blockLength, base)
-    ctx.lineTo(blockLength + index * blockLength, base - heightCoefficient * arr[index])
-    ctx.lineTo(index * blockLength, base - heightCoefficient * arr[index])
+    ctx.lineTo(blockLength + index * blockLength, base - 1 - heightCoefficient * arr[index])
+    ctx.lineTo(index * blockLength, base - 1 - heightCoefficient * arr[index])
     ctx.fill()
 
     if (color == 0) {
-        playSound(soundArr[index % 30], 10, 0.01)
+        playSound(soundSelect(index), 10, 0.01)
     }
 }
 
@@ -162,7 +163,7 @@ async function makeLastBlock(arr) {
         ctx.lineTo(i * blockLength, base - heightCoefficient * arr[i])
         ctx.fill()
 
-        playSound(soundArr[i % 30], 20, 0.01)
+        playSound(soundSelect(i), 20, 0.01)
         await wait(speedSelect())
     }
 }
@@ -222,7 +223,6 @@ async function selectionSort(arr) {
         }
     }
     makeBlock(arr, 0)
-    //makeLastBlock(arr)
 }
 
 async function insertionSort(arr) {
@@ -405,8 +405,8 @@ function makeBlockWithObjs(arr, index) {
         }
         ctx.moveTo(i * blockLength, base)
         ctx.lineTo(blockLength + i * blockLength, base)
-        ctx.lineTo(blockLength + i * blockLength, base - heightCoefficient * arr[i].height)
-        ctx.lineTo(i * blockLength, base - heightCoefficient * arr[i].height)
+        ctx.lineTo(blockLength + i * blockLength, base - 1 - heightCoefficient * arr[i].height)
+        ctx.lineTo(i * blockLength, base - 1 - heightCoefficient * arr[i].height)
         ctx.fill()
     }
 }
@@ -424,12 +424,12 @@ function makeColumnWithObjs(obj, color) {
     ctx.fillStyle = colorArr[color]
     ctx.moveTo(position * blockLength, base)
     ctx.lineTo(blockLength + position * blockLength, base)
-    ctx.lineTo(blockLength + position * blockLength, base - heightCoefficient * obj.height)
-    ctx.lineTo(position * blockLength, base - heightCoefficient * obj.height)
+    ctx.lineTo(blockLength + position * blockLength, base - 1 - heightCoefficient * obj.height)
+    ctx.lineTo(position * blockLength, base - 1 - heightCoefficient * obj.height)
     ctx.fill()
 
     if (color == 0) {
-        playSound(soundArr[position % 30], 10, 0.01)
+        playSound(soundSelect(position), 10, 0.01)
     }
 }
 
@@ -498,7 +498,7 @@ async function heapSort(arr) {
         arr[i] = temp;
         makeColumn(arr, i, 2)
         makeColumn(arr, 0, 4)
-        playSound(soundArr[i % 30], 10, 0.01)
+        playSound(soundSelect(i), 10, 0.01)
         await wait(speedSelect())
 
         // call max heapify on the reduced heap
@@ -567,5 +567,17 @@ function getHeightCoefficient() {
             return 2.5
         case 150:
             return 1
+    }
+}
+
+function soundSelect(i) {
+    if (sizeSelect == 30) {
+        return 300 + 200 * i
+    }
+    else if (sizeSelect == 60) {
+        return 300 + 100 * i
+    }
+    else {
+        return 300 + 40 * i
     }
 }
