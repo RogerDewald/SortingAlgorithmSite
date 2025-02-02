@@ -115,7 +115,7 @@ async function bubbleSort(arr) {
             }
         }
     }
-    makeLastBlock(arr)
+    // makeLastBlock(arr)
 }
 
 function wait(ms) {
@@ -223,7 +223,7 @@ async function selectionSort(arr) {
         }
     }
     makeBlock(arr, 0)
-    makeLastBlock(arr)
+    //makeLastBlock(arr)
 }
 
 async function insertionSort(arr) {
@@ -263,7 +263,7 @@ async function insertionSort(arr) {
         oldJ1 = j + 1
     }
     makeBlock(arr, 0)
-    makeLastBlock(arr)
+    //makeLastBlock(arr)
 }
 
 async function mergeSort(arr) {
