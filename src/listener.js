@@ -54,12 +54,10 @@ document.getElementById("quicksort-button").addEventListener("click", async func
 document.getElementById("heapsort-button").addEventListener("click", async function() {
     audioContext = new window.AudioContext()
     render = false
+    sizeSelect()
     arr = makeArray()
     await wait(speedSelect() + 5)
     makeBlock(arr, 1)
     render = true
     await heapSort(arr)
 })
-
-
-
